@@ -1,14 +1,26 @@
 
-<?php 
-    $servername = "localhost";
-    $username = "root";
-    $password = ""; 
-    $dbname='golearn'; 
-	
-    $conn = new mysqli($servername, $username, $password, &dbname);
-	
-    if ($conn->connect_error) {
+<?php
 
-        die("Connection failed: " . $conn->connect_error);
-    }
+$name = $_POST['name'];
+$email = $_POST['email'];
+$password = $_POST['password'];
+
+//database connection
+
+ $conn = new mysqli('localhost','root','', 'golearn');
+ 
+ if ($conn->connect_error) {
+
+        die('Connection Failed: ' . $conn->connect_error);
+		
+    }else{
+		$stmt = $con->prepare("insert into users(name, email, password) 
+		values (?,?,?)");
+		$stmt->bind_param("sssssi", $name, $email, $password);
+		$stmt->execute();
+		echo "Registration Successfully...";
+		$stmt->close();
+		$conn->close();
+		
+	}
 ?>
